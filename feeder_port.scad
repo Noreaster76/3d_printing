@@ -1,3 +1,25 @@
+module PerchSupport() {
+  cylinder(100, 3.5, 3.5, false);
+}
+
+module PerchSupportAtEdgeOfTube() {
+  // rotate it around the z-axis.
+  rotate([0,0,30]) {
+    // move the perch support to the outside of the tube.
+    translate([0,-28.5,0]) {
+      PerchSupport(){};
+    };
+  };
+};
+
+module Perch(distance_up_from_xy_plane) {
+  translate([14,0,distance_up_from_xy_plane]) {
+    rotate([90,0,0]) {
+      cylinder(57, 3.5, 3.5, true);
+    };
+  };
+};
+
 union() {
 
   // outer tube that goes around the outside of the bottom opening of the PVC pipe
@@ -41,6 +63,18 @@ union() {
     // purpose of trimming off the parts of the tube face that extend
     // beyond the radius of the outer tube.
     cylinder(25, 27.5, 27.5, false);
-  }
+  };
+
+  // the two perch supports that extend parallel to the axis of the
+  // tube opening.
+  PerchSupportAtEdgeOfTube();
+  mirror([0,1,0]) {
+    PerchSupportAtEdgeOfTube();
+  };
+
+  // Perches
+  Perch(50);
+  Perch(75);
+  Perch(100);
 
 }
