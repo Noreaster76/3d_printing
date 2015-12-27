@@ -12,11 +12,32 @@ module PerchSupportAtEdgeOfTube() {
   };
 };
 
+module PerchSupportAtEdgeOfTubeAtEightOClock() {
+  PerchSupportAtEdgeOfTube();
+};
+module PerchSupportAtEdgeOfTubeAtFourOClock() {
+  mirror([0,1,0]) {
+    PerchSupportAtEdgeOfTube();
+  };
+};
+
 module Perch(distance_up_from_xy_plane) {
   translate([14,0,distance_up_from_xy_plane]) {
     rotate([90,0,0]) {
       cylinder(57, 3.5, 3.5, true);
     };
+  };
+};
+
+module ClippedPerch(distance_up_from_xy_plane) {
+  intersection() {
+    translate([0,0,20]) {
+      hull() {
+        PerchSupportAtEdgeOfTubeAtEightOClock();
+        PerchSupportAtEdgeOfTubeAtFourOClock();
+      };
+    };
+    Perch(distance_up_from_xy_plane);
   };
 };
 
@@ -67,14 +88,11 @@ union() {
 
   // the two perch supports that extend parallel to the axis of the
   // tube opening.
-  PerchSupportAtEdgeOfTube();
-  mirror([0,1,0]) {
-    PerchSupportAtEdgeOfTube();
-  };
+  PerchSupportAtEdgeOfTubeAtEightOClock();
+  PerchSupportAtEdgeOfTubeAtFourOClock();
 
   // Perches
-  Perch(50);
-  Perch(75);
-  Perch(100);
-
+  ClippedPerch(50);
+  ClippedPerch(75);
+  ClippedPerch(100);
 }
