@@ -5,7 +5,7 @@ union() {
 
   difference() {
     difference() {
-      ring(ring_diameter - (ring_thickness * 1.95), ring_thickness, ring_height * 3);
+      ring(ring_diameter - (ring_thickness * 2), ring_thickness, ring_height * 3);
       translate([0,0,-1]) {
         ring(ring_diameter - (ring_thickness * 3), ring_thickness, ring_height * 4);
       };
