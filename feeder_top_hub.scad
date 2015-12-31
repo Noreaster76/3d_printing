@@ -21,14 +21,47 @@ module offset_ring(diameter, thickness) {
   };
 }
 
+module screw_hole() {
+  // one cylinder emanating from the z-axis that will be subtracted
+  // from a ring to create a hole for a nut and bolt
+  translate([0,0,15/2]) {
+    rotate([0,90,0]) {
+      cylinder(100, 2, 2, false);
+    };
+  };
+};
+
 // center ring
 ring(ring_diameter, ring_thickness);
 
-// three rings around the outside of the center ring
-offset_ring(ring_diameter, ring_thickness);
-rotate([0,0,120]) {
-  offset_ring(ring_diameter, ring_thickness);
+difference() {
+  intersection() {
+
+    union() {
+      // three rings around the outside of the center ring
+      offset_ring(ring_diameter, ring_thickness);
+      rotate([0,0,120]) {
+        offset_ring(ring_diameter, ring_thickness);
+      };
+      rotate([0,0,240]) {
+        offset_ring(ring_diameter, ring_thickness);
+      };
+    };
+
+    // bounding cylinder to cut off everything but the innermost
+    // arcs of the rings around the outside
+    cylinder(20, 70, 70, false);
+  };
+
+  // screw holes
+  union() {
+    screw_hole();
+    rotate([0,0,120]) {
+      screw_hole();
+    };
+    rotate([0,0,240]) {
+      screw_hole();
+    };
+  };
 };
-rotate([0,0,240]) {
-  offset_ring(ring_diameter, ring_thickness);
-};
+
