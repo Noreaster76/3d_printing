@@ -31,37 +31,41 @@ module screw_hole() {
   };
 };
 
-// center ring
-ring(ring_diameter, ring_thickness);
+module basic_inner_hub() {
+  // center ring
+  ring(ring_diameter, ring_thickness);
 
-difference() {
-  intersection() {
+  difference() {
+    intersection() {
 
-    union() {
-      // three rings around the outside of the center ring
-      offset_ring(ring_diameter, ring_thickness);
-      rotate([0,0,120]) {
+      union() {
+        // three rings around the outside of the center ring
         offset_ring(ring_diameter, ring_thickness);
+        rotate([0,0,120]) {
+          offset_ring(ring_diameter, ring_thickness);
+        };
+        rotate([0,0,240]) {
+          offset_ring(ring_diameter, ring_thickness);
+        };
+      };
+
+      // bounding cylinder to cut off everything but the innermost
+      // arcs of the rings around the outside
+      cylinder(20, 70, 70, false);
+    };
+
+    // screw holes
+    union() {
+      screw_hole();
+      rotate([0,0,120]) {
+        screw_hole();
       };
       rotate([0,0,240]) {
-        offset_ring(ring_diameter, ring_thickness);
+        screw_hole();
       };
-    };
-
-    // bounding cylinder to cut off everything but the innermost
-    // arcs of the rings around the outside
-    cylinder(20, 70, 70, false);
-  };
-
-  // screw holes
-  union() {
-    screw_hole();
-    rotate([0,0,120]) {
-      screw_hole();
-    };
-    rotate([0,0,240]) {
-      screw_hole();
     };
   };
 };
+
+basic_inner_hub();
 
