@@ -18,12 +18,12 @@ module ShapeForJoinerOfTwoParts() {
   color("LightBlue")
     hull() {
       translate([0,0,25.1]) {
-        linear_extrude(0.01, center = true) circle(d = 39.4);
+        linear_extrude(0.01, center = true) circle(d = 41.3);
       };
       // negative, inside space to accommodate port on sander
       linear_extrude(0.01, center = true) {
         offset(r = 1.5) {
-          square([29.2,7.5], center = true);
+          square([29.1,7.4], center = true);
         };
       };
     };
