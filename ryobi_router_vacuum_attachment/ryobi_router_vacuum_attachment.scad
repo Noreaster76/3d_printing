@@ -10,6 +10,8 @@ distance_between_router_screw_holes_in_mm = 85;
 thickness_in_mm = 2;
 width_of_little_straight_part_of_flange = 5;
 
+vacuum_receptacle_height = 45;
+
 function convert_to_radius(diameter) = diameter / 2;
 
 module ScrewHole() {
@@ -37,7 +39,7 @@ module Flange() {
 
 module ShopVacHoseReceptacle() {
   // something to fit over shopvac hose
-  linear_extrude(height = 45) {
+  linear_extrude(height = vacuum_receptacle_height) {
     difference() {
       circle(d = 48);
       circle(d = 45);
@@ -66,14 +68,24 @@ module ArchFragment() {
 module TranslatedFlangePlusArchFragment() {
   union() {
     TranslatedFlange();
-    ArchFragment();
+    difference() {
+      ArchFragment();
+    };
   };
 };
 
 // all the parts!
 
-TranslatedFlangePlusArchFragment();
-mirror([1,0,0]) TranslatedFlangePlusArchFragment();
+difference() {
+  union() {
+    TranslatedFlangePlusArchFragment();
+    mirror([1,0,0]) TranslatedFlangePlusArchFragment();
+  };
+  // clean up the inside of the vacuum receptacle by trimming off the arches
+  color("red")
+    translate([0,0,20])
+    cylinder(vacuum_receptacle_height, d = 45, center = true);
+};
 
 translate([0,0,20])
   ShopVacHoseReceptacle();
