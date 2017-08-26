@@ -23,11 +23,19 @@ Base_Thickness = 1.8; // [0.5:0.2:5]
 // Length of nozzle, total height of model
 Nozzle_Length = 90; // [50:1:400]
 
+// outer width of sander receptacle = 32.5mm
+// plus TWICE the material thickness = 32.5mm + 2(1.7mm)
+//                                   = 32.5mm + 3.4mm
+//                                   = 35.9mm
 // First dimension of nozzle section
-Nozzle_Outer_A = 33; // [4:0.5:100]
+Nozzle_Outer_A = 36.5; // [4:0.5:100]
 
+// outer depth of sander receptacle = 11mm
+// plus TWICE the material thickness = 11mm + 2(1.7mm)
+//                                   = 11mm + 3.4mm
+//                                   = 14.4mm
 // Second dimension of nozzle section
-Nozzle_Outer_B = 11; // [4:0.5:100]
+Nozzle_Outer_B = 15; // [4:0.5:100]
 
 // Fillet radius of nozzle section
 Nozzle_Fillet_Radius = 2; // [1:0.5:50]
