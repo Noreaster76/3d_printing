@@ -1,4 +1,4 @@
-$fn = 90;
+$fn = 80;
 
 perch_thickness = 2;
 
@@ -54,23 +54,31 @@ inner_radius = outer_radius - thickness;
 
 union() {
 
-  // tube that fits into the inside of the bottom opening of the PVC pipe
-  difference(){
-    // outer cylinder
-    cylinder(22, outer_radius, outer_radius, false);
-    // have the inner cylinder extend 1 unit in each direction along the
-    // z-axis in order to extend beyond the ends of the outer cylinder.
-    // this will leave no ambiguity about whether the ends of the tube should
-    // be open or closed.
-    translate([0,0,-1]) {
-      // inner cylinder that gets subtracted from the outer cylinder
-      cylinder(24, inner_radius, inner_radius, false);
+  color("red", 0.8)
+    translate([0, 0, -11])
+    // tube that fits into the inside of the bottom opening of the PVC pipe
+    difference(){
+      // outer cylinder
+      cylinder(22, outer_radius, outer_radius, true);
+      // have the inner cylinder extend 1 unit in each direction along the
+      // z-axis in order to extend beyond the ends of the outer cylinder.
+      // this will leave no ambiguity about whether the ends of the tube should
+      // be open or closed.
+      translate([0,0,-10]) {
+        // inner cylinder that gets subtracted from the outer cylinder
+        cylinder(100, inner_radius, inner_radius, true);
+      }
+    };
+
+  color("orange", 0.8)
+    rotate_extrude(convexity = 10) {
+      translate([outer_radius - thickness/2, 0, 0])
+        circle(thickness/2);
     }
-  };
 
   intersection() {
     // face that covers part of the opening.
-    translate([3,0,21]) {
+    translate([3,0,0]) {
       color("blue") {
         // for the purpose of adding a nice rounded edge
         minkowski() {
@@ -91,7 +99,7 @@ union() {
 
   difference() {
     // perch assembly
-    translate([-13,0,21]) {
+    translate([-13,0,0]) {
       // rotate it around the y-axis.
       rotate([0,60,0]) {
         union() {
@@ -110,8 +118,10 @@ union() {
     };
 
     // cube for clipping off excess of perch assembly inside main tube
-    color("red", 0.7) {
-      cube([outer_radius * 2, outer_radius * 2, 40], true);
+    color("purple", 0.7) {
+      translate([0,0,-10])
+        cube([outer_radius * 2, outer_radius * 2, 20], true);
     }
   };
+
 }
