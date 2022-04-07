@@ -72,9 +72,12 @@ union() {
     // face that covers part of the opening.
     translate([3,0,21]) {
       color("blue") {
+        // for the purpose of adding a nice rounded edge
         minkowski() {
           translate([12,0,0]) {
+            // this is the front face itself
             cube([outer_radius, 55, 2], true);
+            // for the purpose of adding a nice rounded edge
             translate([-12, 0, 0]) rotate([90, 0, 0]) cylinder(55, 1, 1, true);
           }
         }
