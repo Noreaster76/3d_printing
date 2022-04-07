@@ -85,14 +85,16 @@ union() {
 
   intersection() {
     // face that covers part of the opening.
-    translate([0,0,21]) {
-      // move it down the x-axis so that it reveals half of the tube opening.
-      translate([13.75, 0, 0]) {
-        // create a rectangle that will obscure half of the tube opening,
-        // centered on the origin.
-        cube([outer_radius, 55, 2], true);
+    translate([3,0,21]) {
+      color("blue") {
+        minkowski() {
+          translate([12,0,0]) {
+            cube([outer_radius, 55, 2], true);
+            translate([-12, 0, 0]) rotate([90, 0, 0]) cylinder(55, 1, 1, true);
+          }
+        }
       }
-    };
+    }
     // cylinder with a radius equal to that of the outer tube, for the
     // purpose of trimming off the parts of the tube face that extend
     // beyond the radius of the outer tube.
