@@ -68,21 +68,6 @@ union() {
     }
   };
 
-/*
-  // translate it up the z-axis to the top of the outer cylinders.
-  translate([0,0,20]) {
-    difference() {
-      // disk with a hole in the middle that joins the outer tube and
-      // inner tube that go around the outside and inside, respectively,
-      // of the bottom of the PVC pipe.
-      cylinder(2, outer_radius, outer_radius, false);
-      translate([0,0,-1]) {
-        cylinder(4, outer_radius - 7.75, outer_radius - 7.75, false);
-      }
-    }
-  };
-*/
-
   intersection() {
     // face that covers part of the opening.
     translate([3,0,21]) {
