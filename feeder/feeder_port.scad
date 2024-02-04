@@ -74,7 +74,7 @@ union() {
             // to keep the perch assembly in the PVC pipe
             translate([20, 0, 0])
                 rotate([0, 90, 0])
-                color("purple") cylinder(20, 2, 2, true);
+                color("purple") cylinder(20, 3, 3, true);
         }
     };
 
