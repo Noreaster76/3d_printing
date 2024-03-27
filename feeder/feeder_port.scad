@@ -1,49 +1,8 @@
+include <ladder_perch.scad>;
+
 $fn = 80;
 
-perch_thickness = 2.5;
-
-module PerchSupport() {
-  cylinder(125, perch_thickness, perch_thickness, false);
-}
-
-module PerchSupportAtEdgeOfTube() {
-  // rotate it around the z-axis.
-  rotate([0,0,30]) {
-    // move the perch support to the outside of the tube.
-    translate([0,-21.5,0]) {
-      PerchSupport(){};
-    };
-  };
-};
-
-module PerchSupportAtEdgeOfTubeAtEightOClock() {
-  PerchSupportAtEdgeOfTube();
-};
-module PerchSupportAtEdgeOfTubeAtFourOClock() {
-  mirror([0,1,0]) {
-    PerchSupportAtEdgeOfTube();
-  };
-};
-
-module Perch(distance_up_from_xy_plane) {
-  translate([11,0,distance_up_from_xy_plane]) {
-    rotate([90,0,0]) {
-      cylinder(57, perch_thickness, perch_thickness, true);
-    };
-  };
-};
-
-module ClippedPerch(distance_up_from_xy_plane) {
-  intersection() {
-    translate([0,0,20]) {
-      hull() {
-        PerchSupportAtEdgeOfTubeAtEightOClock();
-        PerchSupportAtEdgeOfTubeAtFourOClock();
-      };
-    };
-    Perch(distance_up_from_xy_plane);
-  };
-};
+perch_type = "diagonal ladder";
 
 // outer radius of main feeder port cylinder
 outer_radius = 24;
@@ -109,31 +68,8 @@ union() {
     }
   };
 
-  difference() {
-    // perch assembly
-    translate([-13,0,0]) {
-      // rotate it around the y-axis.
-      rotate([0,60,0]) {
-        union() {
-          // the two perch supports that extend parallel to the axis of the
-          // tube opening.
-          PerchSupportAtEdgeOfTubeAtEightOClock();
-          PerchSupportAtEdgeOfTubeAtFourOClock();
-
-          // Perches
-          ClippedPerch(50);
-          ClippedPerch(75);
-          ClippedPerch(100);
-          ClippedPerch(125);
-        };
-      };
-    };
-
-    // cube for clipping off excess of perch assembly inside main tube
-    color("purple", 0.7) {
-      translate([0,0,-10])
-        cube([outer_radius * 2, outer_radius * 2, 20], true);
-    }
-  };
+  if (perch_type == "diagonal ladder") {
+    DiagonalLadderEntireAssembly();
+  }
 
 }
