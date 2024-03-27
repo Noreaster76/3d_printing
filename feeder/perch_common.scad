@@ -8,3 +8,10 @@ module Perch(distance_up_from_xy_plane) {
   };
 };
 
+// cube for clipping off excess of perch assembly inside main tube
+module ClippingCube(outer_radius) {
+    color("purple", 0.7) {
+        translate([0,0,-10])
+            cube([outer_radius * 2, outer_radius * 2, 20], true);
+    }
+}

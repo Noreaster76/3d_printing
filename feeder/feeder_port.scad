@@ -1,8 +1,11 @@
 include <ladder_perch.scad>;
+include <two_holes_for_non_printed_perch.scad>;
 
 $fn = 80;
 
-perch_type = "diagonal ladder";
+perch_type = "holes for non-printed perch";
+
+quarter_inch = 6.3;
 
 // outer radius of main feeder port cylinder
 outer_radius = 24;
@@ -11,11 +14,16 @@ thickness = 2.5;
 // inner radius of main feeder port cylinder
 inner_radius = outer_radius - thickness;
 
-union() {
-    MainPerchBodyThatSitsInsidePvc();
 
-    if (perch_type == "diagonal ladder") {
+if (perch_type == "diagonal ladder") {
+    union() {
+        MainPerchBodyThatSitsInsidePvc();
         DiagonalLadderEntireAssembly();
+    }
+} else if (perch_type == "holes for non-printed perch") {
+    difference() {
+        MainPerchBodyThatSitsInsidePvc();
+        HolesForNonPrintedPerchEntireAssembly(quarter_inch);
     }
 }
 
@@ -70,11 +78,11 @@ module BlueFace() {
             color("blue") {
                 // for the purpose of adding a nice rounded edge
                 minkowski() {
-                    translate([12,0,0]) {
+                    translate([12,0,-1.5]) {
                         // this is the front face itself
-                        cube([outer_radius, 55, 3], true);
+                        cube([outer_radius, 55, 6], true);
                         // for the purpose of adding a nice rounded edge
-                        translate([-12, 0, 0]) rotate([90, 0, 0]) cylinder(55, 1.5, 1.5, true);
+                        translate([-12, 0, 0]) rotate([90, 0, 0]) cylinder(55, 3, 3, true);
                     }
                 }
             }
