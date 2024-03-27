@@ -23,7 +23,7 @@ if (perch_type == "diagonal ladder") {
 } else if (perch_type == "holes for non-printed perch") {
     difference() {
         MainPerchBodyThatSitsInsidePvc();
-        HolesForNonPrintedPerchEntireAssembly(quarter_inch);
+        HolesForNonPrintedPerchEntireAssembly(quarter_inch, 1);
     }
 }
 

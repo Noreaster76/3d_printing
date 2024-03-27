@@ -20,11 +20,18 @@ module HoleAtEdgeOfTubeAtFourOClock(hole_diameter) {
     };
 };
 
-module HolesForNonPrintedPerchEntireAssembly(hole_diameter) {
-    union() {
-        // the two perch supports that extend parallel to the axis of the
-        // tube opening.
+module HolesForNonPrintedPerchEntireAssembly(hole_diameter, number_of_holes) {
+    assert(number_of_holes == 1 || number_of_holes == 2,
+            "Unexpected number of holes");
+
+    if (number_of_holes == 1) {
         HoleAtEdgeOfTubeAtEightOClock(hole_diameter);
-        HoleAtEdgeOfTubeAtFourOClock(hole_diameter);
+    } else if (number_of_holes == 2) {
+        union() {
+            // the two perch supports that extend parallel to the axis of the
+            // tube opening.
+            HoleAtEdgeOfTubeAtEightOClock(hole_diameter);
+            HoleAtEdgeOfTubeAtFourOClock(hole_diameter);
+        };
     };
 };
