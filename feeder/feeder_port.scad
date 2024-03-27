@@ -12,7 +12,28 @@ thickness = 2.5;
 inner_radius = outer_radius - thickness;
 
 union() {
+    MainPerchBodyThatSitsInsidePvc();
 
+  if (perch_type == "diagonal ladder") {
+    DiagonalLadderEntireAssembly();
+  }
+}
+
+module MainPerchBodyThatSitsInsidePvc() {
+    RedCylinder();
+    RoundedOrangeEdge();
+    BlueFace();
+};
+
+// a cylinder to make a hole to accommodate a bolt
+// to keep the perch assembly in the PVC pipe
+module BoltHole() {
+    translate([20, 0, 0])
+        rotate([0, 90, 0])
+        color("purple") cylinder(20, 3, 3, true);
+};
+
+module RedCylinder() {
   color("red", 0.8)
     translate([0, 0, -11])
     difference(){
@@ -29,20 +50,20 @@ union() {
                 cylinder(100, inner_radius, inner_radius, true);
             }
 
-            // a cylinder to make a hole to accommodate a bolt
-            // to keep the perch assembly in the PVC pipe
-            translate([20, 0, 0])
-                rotate([0, 90, 0])
-                color("purple") cylinder(20, 3, 3, true);
+            BoltHole();
         }
     };
+};
 
+module RoundedOrangeEdge() {
   color("orange", 0.8)
     rotate_extrude(convexity = 10) {
       translate([outer_radius - thickness/2, 0, 0])
         circle(thickness/2);
     }
+};
 
+module BlueFace() {
   intersection() {
     // face that covers part of the opening.
     translate([3,0,0]) {
@@ -67,9 +88,5 @@ union() {
       }
     }
   };
+};
 
-  if (perch_type == "diagonal ladder") {
-    DiagonalLadderEntireAssembly();
-  }
-
-}
